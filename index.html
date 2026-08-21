@@ -509,9 +509,9 @@
   <img src="logo.png" alt="logo" class="brand-logo">
   Wellbeing Resource Library
 </button>
+    <button class="skip-btn" id="about-link">About</button>
   </div>
-</header>
- 
+</header> 
 <!-- ============================================================
      SURVEY SECTION
      This holds BOTH survey questions. Only one is visible at a
@@ -584,6 +584,17 @@
          by JavaScript's renderGrid() function — there is no
          tile HTML written by hand anywhere in this file. -->
     <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+
+  <section id="about-view" style="display:none;">
+  <div class="wrap" style="padding: 60px 0;">
+    <button class="skip-btn" id="about-back-btn">← Back</button>
+    <h1 class="survey-title" style="max-width:none; margin-top:20px;">About</h1>
+    <div class="survey-sub" style="max-width:60ch;">
+      <!-- ⭐ PUT YOUR ABOUT PAGE TEXT HERE ⭐ -->
+    </div>
   </div>
 </section>
  
@@ -958,6 +969,8 @@ function init() {
         //adding this and it should help make clicking the title go back to the homepage
   document.getElementById("home-link").addEventListener("click", () => { clearFilters(); showSurvey(); })
 }
+  document.getElementById("about-link").addEventListener("click", showAbout);
+document.getElementById("about-back-btn").addEventListener("click", hideAbout);
  
 /* Builds the five Q1 buttons (Elections/Movement/Nonprofit/Funder/
    Healer) inside the empty <div id="roll-q1"> from the HTML above,
@@ -1011,6 +1024,18 @@ function handleQ1Select(option) {
 function showQ1() {
   document.getElementById("q2-step").style.display = "none";
   document.getElementById("q1-step").style.display = "block";
+}
+  function showAbout() {
+  document.getElementById("survey-view").style.display = "none";
+  document.getElementById("results-view").style.display = "none";
+  document.getElementById("about-view").style.display = "block";
+  window.scrollTo(0, 0);
+}
+function hideAbout() {
+  document.getElementById("about-view").style.display = "none";
+  document.getElementById("survey-view").style.display = "block";
+  showQ1();
+  window.scrollTo(0, 0);
 }
  
 /* ------------------------------------------------------------
