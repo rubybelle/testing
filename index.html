@@ -118,8 +118,8 @@
     padding: 28px 0 18px;
   }
   .masthead .wrap {
-    display: flex;                 /* lays children out side by side */
-    align-items: baseline;
+    display: flex;                 
+    align-items: center;
     justify-content: space-between; /* pushes brand left, count right */
     flex-wrap: wrap;
     gap: 8px;
@@ -252,7 +252,7 @@
  
   .results-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: flex-end;
     flex-wrap: wrap;
     gap: 16px;
@@ -509,10 +509,7 @@
   <img src="logo.png" alt="logo" class="brand-logo">
   Wellbeing Resource Library
 </button>
-    <div style="display:flex; align-items:center; gap:16px;">
-      <div class="tally" id="header-tally"></div>
-      <button class="skip-btn" id="about-link">About</button>
-    </div>
+    <button class="skip-btn" id="about-link">About</button>
   </div>
 </header>
   <!-- ============================================================
@@ -566,8 +563,9 @@
 <section id="results-view">
   <div class="wrap">
 <div class="results-header">
-  <button class="change-who" id="change-who">Change your selection</button>
-</div> 
+  <div class="tally" id="header-tally"></div>
+  <button class="change-who" id="change-who">Change who you are</button>
+</div>
     <!-- The filter bar: a search box plus three dropdown buttons
          (Category / Audience / Geography). Each dropdown container
          below starts EMPTY — JavaScript's buildDropdownFilter()
