@@ -613,30 +613,11 @@
 /* ============================================================
    ⭐ CONNECTING GOOGLE SHEETS — READ THIS FIRST ⭐
    ------------------------------------------------------------
-   Right now the site runs on the fake MOCK_DATA list below (a
-   handful of made-up example resources), so you can see the
-   whole thing working before your real spreadsheet is ready.
- 
-   Your real "Resilience Scan" sheet is already published as a
-   CSV, and that URL is already sitting in LIVE_CSV_URL just
-   below — but USE_LIVE_DATA is deliberately still set to false,
-   because a handful of rows in that sheet are still incomplete
-   (missing a Category, Audience, blank rows, a few notes-to-self
-   with only a link typed in). Once those rows are cleaned up,
-   all you have to do is:
- 
-   STEP 1 — Change USE_LIVE_DATA from false to true, just below.
-     That's it — nothing else needs to change.
- 
-   From then on, every time someone loads the page it fetches
-   your live sheet, so editing the spreadsheet updates the
-   website automatically (no re-coding, no re-uploading this
-   file). The actual fetching/parsing happens in the
-   loadLiveData() function, about a third of the way down this
-   script — Papaparse (loaded at the very top of this file) is
-   the library doing the heavy lifting of turning the CSV text
-   into usable data.
- 
+   The site loads resources live from your Google Sheet below —
+   there's no fake/placeholder data anymore. If the sheet fails
+   to load for any reason, the site will simply show no
+   resources rather than falling back to anything made up.
+   
    If you ever need to re-publish the sheet (e.g. you moved it
    to a new tab, or Google gives you a new link), repeat this:
    File → Share → Publish to web → choose the sheet/tab → choose
@@ -657,121 +638,7 @@
  
 const USE_LIVE_DATA = true;  // ← flip to true once your sheet is cleaned up
 const LIVE_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYMzZEb_VUGstVc4qBHhzAsjohCjbSMBSafpqHeGeq-atBxhWbOkt33Buiw1l172B1CuBWET2p8HOw/pub?gid=0&single=true&output=csv";
- 
- /* ------------------------------------------------------------
-   MOCK_DATA — fake placeholder resources
-   ------------------------------------------------------------
-   This is a plain JavaScript list ("array") of objects. Each
-   object (the stuff between { and }) is one resource, with the
-   same fields you'll eventually pull from Google Sheets. This
-   only gets used while USE_LIVE_DATA is false, above — feel
-   free to edit, add, or delete entries here directly if you
-   want to test with different examples before your sheet is
-   ready.
------------------------------------------------------------- */
-const MOCK_DATA = [
-  {
-    name: "Movement Rest Fund",
-    org: "The Sabbatical Project",
-    category: ["Sabbaticals", "Funding"],
-    audience: ["Movement folks", "Leaders"],
-    description: "Grants covering 6–12 weeks of paid leave for organizers and movement leaders showing signs of burnout, plus a re-entry coaching call.",
-    geography: "US",
-    specificGeography: "",
-    link: "https://example.org/movement-rest-fund"
-  },
-  {
-    name: "Somatic Support Circles",
-    org: "Rooted Body Collective",
-    category: ["Somatic and healing", "Mental healthcare"],
-    audience: ["BIPOC folks", "Healers/mental health professionals"],
-    description: "Free monthly virtual healing circles blending somatic practice and peer support, facilitated by BIPOC-identified practitioners.",
-    geography: "Global",
-    specificGeography: "",
-    link: "https://example.org/somatic-circles"
-  },
-  {
-    name: "Election Official Safety Line",
-    org: "Civic Shield Network",
-    category: ["Organizational support", "Trauma-specific"],
-    audience: ["Election officials/professionals"],
-    description: "24/7 confidential support line for election administrators facing threats or harassment, with rapid-response security consultations.",
-    geography: "US",
-    specificGeography: "",
-    link: "https://example.org/civic-shield"
-  },
-  {
-    name: "Nonprofit Ops Toolkit",
-    org: "Sturdy Roots Consulting",
-    category: ["Resource banks", "Organizational support", "Tactics and case studies"],
-    audience: ["Nonprofit executives", "Nonprofit managers"],
-    description: "Templates and case studies for HR policy, budgeting, and succession planning drawn from 40+ small nonprofits.",
-    geography: "US",
-    specificGeography: "",
-    link: "https://example.org/ops-toolkit"
-  },
-  {
-    name: "Funders Learning Cohort",
-    org: "Bridgeline Philanthropy Network",
-    category: ["Conveners and connectors", "Professional development"],
-    audience: ["Funders"],
-    description: "A closed 6-month cohort for program officers to trade notes on trust-based grantmaking practices.",
-    geography: "US",
-    specificGeography: "",
-    link: "https://example.org/funders-cohort"
-  },
-  {
-    name: "Frontline Fellowship",
-    org: "Vanguard Leadership Institute",
-    category: ["Fellowship", "Trainings", "Professional development"],
-    audience: ["Movement folks", "Nonprofit staff"],
-    description: "A paid 9-month fellowship combining leadership training with a stipend, built for staff five or more years into movement work.",
-    geography: "Global",
-    specificGeography: "",
-    link: "https://example.org/frontline-fellowship"
-  },
-  {
-    name: "Trauma-Informed Facilitation Guide",
-    org: "Steady Ground Institute",
-    category: ["Trauma-specific", "Tactics and case studies", "Trainings"],
-    audience: ["Healers/mental health professionals", "Leaders"],
-    description: "A practical field guide for running high-stakes meetings without re-traumatizing participants, with sample scripts.",
-    geography: "Global",
-    specificGeography: "",
-    link: "https://example.org/facilitation-guide"
-  },
-  {
-    name: "Grantee Wellbeing Stipends",
-    org: "Open Field Foundation",
-    category: ["Funding", "Mental healthcare"],
-    audience: ["Specific grantees"],
-    description: "Direct $2,000 wellbeing stipends for current grantee organizations' staff, no application required beyond a short form.",
-    geography: "State-specific",
-    specificGeography: "California",
-    link: "https://example.org/grantee-stipends"
-  },
-  {
-    name: "City Nonprofit Roundtable",
-    org: "Detroit Civic Alliance",
-    category: ["Conveners and connectors", "Organizational support"],
-    audience: ["Nonprofit executives", "Broad-based"],
-    description: "Monthly in-person roundtable connecting nonprofit leaders across the city for peer troubleshooting and shared resources.",
-    geography: "City-specific",
-    specificGeography: "Detroit, MI",
-    link: "https://example.org/detroit-roundtable"
-  },
-  {
-    name: "General Wellness Directory",
-    org: "Common Good Resource Hub",
-    category: ["Resource banks", "Mental healthcare"],
-    audience: ["Broad-based", "Other"],
-    description: "A searchable, general-purpose directory of low-cost mental health providers accepting nonprofit-worker referrals.",
-    geography: "US",
-    specificGeography: "",
-    link: "https://example.org/wellness-directory"
-  }
-];
- 
+  
 /* ------------------------------------------------------------
    TAXONOMY LISTS
    ------------------------------------------------------------
@@ -863,9 +730,10 @@ const BRANCHES = {
    automatically ignores duplicates), so any number of checkboxes
    can be on at once within each dropdown.
 ------------------------------------------------------------ */
-let DATA = MOCK_DATA;
+let DATA = [];
+let dataLoaded = false;
 let activeIdentity = null;
-const state = {
+  const state = {
   search: "",
   categories: new Set(),
   audiences: new Set(),
@@ -884,8 +752,8 @@ const state = {
    whether the data came from the mock list or a live sheet.
 ------------------------------------------------------------ */
 function loadLiveData() {
-  if (!USE_LIVE_DATA || !LIVE_CSV_URL) return; // bail out early if not set up yet
- 
+  if (!USE_LIVE_DATA || !LIVE_CSV_URL) { dataLoaded = true; return; } // bail out early if not set up yet
+  
   Papa.parse(LIVE_CSV_URL, {
     download: true,        // fetch the URL rather than parsing local text
     header: true,           // treat the first row as column names
@@ -904,7 +772,7 @@ function loadLiveData() {
         geography: row["Geographic scope"] || "",
         specificGeography: row["Specific Geography"] || "",
         link: row["Link"] || "#"
-      })).filter(r => r.name); // drops rows that are entirely blank
+           })).filter(r => r.name); // drops rows that are entirely blank
                                  // (no Name at all). Rows that DO have
                                  // something in Name but are missing
                                  // other fields (Category, Audience,
@@ -913,13 +781,16 @@ function loadLiveData() {
                                  // can spot and finish them on the
                                  // live site rather than have them
                                  // silently vanish.
+      dataLoaded = true;
       renderGrid(); // redraw the tiles now that real data has arrived
     },
     error: function(err) {
       // If the fetch fails (wrong URL, sheet not published, etc.)
       // this logs a message to the browser console instead of
-      // breaking the page — visitors still see the mock data.
-      console.error("Failed to load live sheet data, falling back to mock data.", err);
+      // breaking the page.
+      console.error("Failed to load live sheet data.", err);
+      dataLoaded = true;
+      renderGrid();
     }
   });
 }
@@ -942,7 +813,6 @@ function init() {
   buildDropdownFilter("audience-dd", "audience", "Audience", AUDIENCE_OPTIONS, state.audiences);
   buildDropdownFilter("geography-dd", "geography", "Geography", GEO_OPTIONS, state.geographies);
   loadLiveData();
-  updateHeaderTally();
  
   
   document.getElementById("skip-btn").addEventListener("click", () => showResults(null));
@@ -1220,10 +1090,11 @@ function renderGrid() {
   countLine.textContent = `Showing ${filtered.length} of ${DATA.length} resources`;
  
   if (filtered.length === 0) {
-    grid.innerHTML = `<div class="empty-state"><strong>No resources match yet</strong>Try clearing a filter or searching a different term.</div>`;
+    grid.innerHTML = dataLoaded
+      ? `<div class="empty-state"><strong>No resources match yet</strong>Try clearing a filter or searching a different term.</div>`
+      : `<div class="empty-state"><strong>Loading resources…</strong>Just a moment.</div>`;
     return;
   }
- 
   filtered.forEach(r => {
     const tile = document.createElement("div");
     tile.className = "tile";
