@@ -509,10 +509,13 @@
   <img src="logo.png" alt="logo" class="brand-logo">
   Wellbeing Resource Library
 </button>
-    <button class="skip-btn" id="about-link">About</button>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <div class="tally" id="header-tally"></div>
+      <button class="skip-btn" id="about-link">About</button>
+    </div>
   </div>
-</header> 
-<!-- ============================================================
+</header>
+  <!-- ============================================================
      SURVEY SECTION
      This holds BOTH survey questions. Only one is visible at a
      time — JavaScript shows/hides them by changing their CSS
