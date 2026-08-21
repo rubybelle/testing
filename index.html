@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <!-- 
   ============================================================================
@@ -126,18 +125,14 @@
     gap: 8px;
   }
   .brand {
-  font-family: 'Crimson Pro', serif;
-  font-weight: 600;
-  font-size: 22px;
-  letter-spacing: -0.01em;
-  background: none;
-  border: none;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    font-family: 'Crimson Pro', serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    background: none;
+    border: none;
+    padding: 0;
   }
-  .brand-logo { height: 32px; width: auto; }
   .tally {
     font-size: 13px;
     color: var(--ink-soft);
@@ -507,10 +502,7 @@
 ============================================================ -->
 <header class="masthead">
   <div class="wrap">
-<button type="button" class="brand" id="home-link">
-  <img src="logo.png" alt="logo" class="brand-logo">
-  Democracy Notes Wellbeing Resource Library
-</button>
+<button type="button" class="brand" id="home-link">Democracy Notes Wellbeing Resource Library</button>    <div class="tally" id="header-tally"></div>
   </div>
 </header>
  
@@ -565,7 +557,7 @@
 <section id="results-view">
   <div class="wrap">
 <div class="results-header">
-  <button class="change-who" id="change-who">Change who you are</button>
+  <button class="change-who" id="change-who">Change your selection</button>
 </div> 
     <!-- The filter bar: a search box plus three dropdown buttons
          (Category / Audience / Geography). Each dropdown container
@@ -782,9 +774,9 @@ const CATEGORY_OPTIONS = [
 ];
  
 const AUDIENCE_OPTIONS = [
-  "Movement folks","Nonprofit executives","BIPOC folks","Election officials/professionals","Funders",
+  "Movement folks","Nonprofit executives","BIPOC folks","Election officials/professionals","Philanthropy",
   "Specific grantees","Everyone","Other","Nonprofit staff","Nonprofit managers",
-  "Healers/mental health professionals","Leaders","Campaign staff"
+  "Care professionals","Leaders","Campaign staff"
 ];
  
 // "North America" and "Regional" were added here to match values
@@ -808,7 +800,7 @@ const GEO_OPTIONS = ["Global","North America","US","Regional","State-specific","
    times below) — the "...NONPROFIT_ROLE_OPTIONS" syntax means
    "insert every item from that list here."
 ------------------------------------------------------------ */
-const Q1_OPTIONS = ["Elections", "Movement", "Nonprofit", "Funder", "Healer and/or mental health professional"];
+const Q1_OPTIONS = ["Elections", "Movement", "Nonprofit", "Philanthropy", "Care professional"];
  
 const NONPROFIT_ROLE_OPTIONS = ["Nonprofit executives", "Nonprofit staff", "Nonprofit managers"];
  
@@ -837,8 +829,8 @@ const BRANCHES = {
     skipLabel: "Skip and show me all resources for nonprofits",
     skipWho: "nonprofits"
   },  
-  "Funder": { direct: true, audience: "Funders" },
-  "Healer and/or mental health professional": { direct: true, audience: "Healers/mental health professionals" }
+  "Philanthropy": { direct: true, audience: "Philanthropy" },
+  "Care professional": { direct: true, audience: "Care professionals" }
 };
  
 /* ------------------------------------------------------------
@@ -1182,7 +1174,7 @@ function renderGrid() {
     // always pass through regardless of which audience is picked,
     // since they're meant for everyone.
     if (state.audiences.size > 0) {
-    const overlap = r.audience.some(a => state.audiences.has(a)) || (r.audience.includes("Everyone") && !state.audiences.has("Funders"));      if (!overlap) return false;
+    const overlap = r.audience.some(a => state.audiences.has(a)) || (r.audience.includes("Everyone") && !state.audiences.has("Philanthropy"));      if (!overlap) return false;
     }
     // Geography: if any geography checkboxes are checked, the
     // resource's broad geography (Global/US/State-specific/
