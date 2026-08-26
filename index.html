@@ -47,6 +47,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
  
 <style>
+  
   /* ==========================================================
      COLOR PALETTE
      ----------------------------------------------------------
@@ -111,7 +112,7 @@
     margin: 0 auto;
     padding: 0 24px;
   }
- 
+ .header-logo { height: 36px; width: auto; }
   /* ---------- Header bar at the very top of the page ---------- */
   .masthead {
     border-bottom: 1px solid var(--line);
@@ -505,12 +506,12 @@
 ============================================================ -->
 <header class="masthead">
   <div class="wrap">
-    <button type="button" class="brand" id="home-link">
-  <img src="logo.png" alt="logo" class="brand-logo">
-  Democracy Notes Wellbeing Resource Library
-</button>
-    <button class="skip-btn" id="about-link">About</button>
-  </div>
+<button type="button" class="brand" id="home-link">
+ Democracy Notes Wellbeing Resource Library
+    <div style="display:flex; align-items:center; gap:14px;">
+      <img src="logo.png" alt="logo" class="header-logo">
+      <button class="skip-btn" id="about-link">About</button>
+      </div>
 </header>
   <!-- ============================================================
      SURVEY SECTION
