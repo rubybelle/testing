@@ -1037,10 +1037,6 @@ function clearFilters() {
 /* Updates the small "X resources" count in the top-right of the
    header to match however many total resources are currently
    loaded (mock or live). */
-function updateHeaderTally() {
-  document.getElementById("header-tally").textContent = `${DATA.length} resources`;
-}
- 
 /* ------------------------------------------------------------
    renderGrid() — the most important function on the page
    ------------------------------------------------------------
@@ -1054,7 +1050,6 @@ function updateHeaderTally() {
         inserts it into the grid.
 ------------------------------------------------------------ */
 function renderGrid() {
-  updateHeaderTally();
   const grid = document.getElementById("grid");
   const countLine = document.getElementById("count-line");
   grid.innerHTML = "";
