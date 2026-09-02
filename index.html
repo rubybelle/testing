@@ -124,12 +124,31 @@
     border-bottom: 1px solid var(--line);
     padding: 28px 0 18px;
   }
-  .masthead .wrap {
-    display: flex;                 
+   .masthead .wrap {
+    display: flex;
     align-items: center;
-    justify-content: space-between; /* pushes brand left, count right */
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 14px;
+  }
+  /* Pushes the About button (and the logo right after it) all the
+     way to the right, while the title stays on the left — this
+     replaces the old space-between approach, since we now have
+     three separate items instead of two. */
+  #about-link { margin-left: auto; }
+
+  /* On narrow/mobile screens, stack all three header items
+     vertically and center them, in this order: logo, title,
+     About. The "order" property lets us control the VISUAL
+     order independently of the order they appear in the HTML. */
+  @media (max-width: 700px) {
+    .masthead .wrap {
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+    .header-logo { order: 1; }
+    .brand { order: 2; }
+    #about-link { order: 3; margin-left: 0; }
   }
   .brand {
       font-family: 'Crimson Pro', serif;
@@ -141,7 +160,11 @@
       padding: 0;
       display: flex;
       align-items: center;
-      gap: 10px;  }
+      gap: 10px;
+      color: var(--ink);
+      -webkit-appearance: none;
+      appearance: none;
+  }
   .brand-logo { height: 45px; width: auto; }
   .tally {
     font-size: 13px;
@@ -515,10 +538,8 @@
     <button type="button" class="brand" id="home-link">
       Democracy Notes Wellbeing Resource Library
     </button>
-    <div style="display:flex; align-items:center; gap:14px;">
-      <button class="skip-btn" id="about-link">About</button>
-      <img src="logo.png" alt="logo" class="header-logo">
-    </div> 
+    <button class="skip-btn" id="about-link">About</button>
+    <img src="logo.png" alt="logo" class="header-logo">
 </header>  <!-- ============================================================
      SURVEY SECTION
      This holds BOTH survey questions. Only one is visible at a
